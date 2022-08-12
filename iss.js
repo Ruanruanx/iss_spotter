@@ -23,9 +23,6 @@ const fetchMyIP = function(done) {
     done(null, data.ip);
   });
 }
-fetchMyIP((error,ip)=>{
-  console.log(ip);
-})
 
 const fetchCoordsByIP = function(ip, done) {
   request('http://ipwho.is/' + ip, (error, response, body) => {
@@ -63,6 +60,22 @@ const fetchISSFlyOverTimes = function(coords, done){
 
 const nextISSTimesForMyLocation = function(done){
 
+    fetchMyIP((error,ip)=>{
+      if(error){
+        return done(error,null);
+      }
+      fetchCoordsByIP(ip,(error,location)=>{
+        if(error){
+          return done(error,null);
+        }
+        fetchISSFlyOverTimes(location,(error,nextPasses)=>{
+          if(error){
+            return done(error,null);
+          }
+          done(null, nextPasses);
+        });
+      });
+    });
 }
 
-module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes, nextISSTimesForMyLocation };
+module.exports = { nextISSTimesForMyLocation };
