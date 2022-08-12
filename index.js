@@ -1,4 +1,4 @@
-const { fetchMyIP, fetchCoordsByIP,fetchISSFlyOverTimes } = require('./iss');
+const { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes, nextISSTimesForMyLocation } = require('./iss');
 // fetchMyIP((error, ip) => {
 //   if (error) {
 //     console.log(`It didn't work: ${error}`);
@@ -19,19 +19,29 @@ const { fetchMyIP, fetchCoordsByIP,fetchISSFlyOverTimes } = require('./iss');
 //     console.log(location);
 //   }
 
-// })
+ // })
 //shanghai
-const coords = { latitude: 31.230416, longitude: 121.473701}
+// const coords = { latitude: 31.230416, longitude: 121.473701}
 
-//const coords ={latitude:51.507351, longitude: -0.127758}
+// //const coords ={latitude:51.507351, longitude: -0.127758}
 
-fetchISSFlyOverTimes(coords,(error, result)=>{
+// fetchISSFlyOverTimes(coords,(error, result)=>{
+//   if(error){
+//     console.log("It didn't work!", error);
+//     return;
+//     } else {
+//       console.log(result);
+//     }
+
+// })
+
+nextISSTimesForMyLocation((error, passTimes)=>{
   if(error){
-    console.log("It didn't work!", error);
-    return;
-    } else {
-      console.log(result);
-    }
+     console.log("It didn't work!", error);
+     return;
+  }
+  console.log(passTimes);
 
 })
+
 

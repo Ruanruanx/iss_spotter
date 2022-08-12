@@ -9,7 +9,7 @@
 const request = require('request');
 const fetchMyIP = function(done) {
   // use request to fetch IP address from JSON API
-  request('https://geo.ipify.org/api/v2/country,city?apiKey=at_DHVTAqaliKcStNAxoYdktX08t1Pnt&ipAddress=8.8.8.8', (error, response, body) => {
+  request('https://api.ipify.org?format=json', (error, response, body) => {
     if (error) {
       done(error, null);
       return;
@@ -22,8 +22,10 @@ const fetchMyIP = function(done) {
     const data = JSON.parse(body);
     done(null, data.ip);
   });
-
 }
+fetchMyIP((error,ip)=>{
+  console.log(ip);
+})
 
 const fetchCoordsByIP = function(ip, done) {
   request('http://ipwho.is/' + ip, (error, response, body) => {
@@ -59,4 +61,8 @@ const fetchISSFlyOverTimes = function(coords, done){
   });
 }
 
-module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes };
+const nextISSTimesForMyLocation = function(done){
+
+}
+
+module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes, nextISSTimesForMyLocation };
