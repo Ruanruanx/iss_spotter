@@ -25,8 +25,22 @@ const fetchMyIP = function(done) {
 
 }
 
-const fetchCoordsByIP = function(ip, done){
-
+const fetchCoordsByIP = function(ip, done) {
+  request('http://ipwho.is/' + ip, (error, response, body) => {
+    if (error) {
+      done(error,null);
+      return;
+    }
+    const data = JSON.parse(body);
+    let result = {};
+    if (!data.success) {
+      const message = `Sussess status was ${data.success}. Server message says: ${data.message} when fetching for IP ${data.ip}`;
+      done(Error(message), null);
+      return;
+    } 
+    const {latitude, longitude} = data;
+    done(null, {latitude, longitude});
+  })
 }
 
 module.exports = { fetchMyIP, fetchCoordsByIP };
