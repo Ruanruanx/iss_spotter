@@ -43,4 +43,20 @@ const fetchCoordsByIP = function(ip, done) {
   })
 }
 
-module.exports = { fetchMyIP, fetchCoordsByIP };
+const fetchISSFlyOverTimes = function(coords, done){
+  request(`https://iss-pass.herokuapp.com/json/?lat=${coords.latitude}&lon=${coords.longitude}`,(error,response,body)=>{
+    if(error){
+      done(error, null);
+      return;
+    }
+    let data  = JSON.parse(body);
+
+    if(response.statusCode!==200){
+      const message = `Error. Invalid ip`;
+      done(Error(message));
+    }
+    done(null, data.response);
+  });
+}
+
+module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes };
